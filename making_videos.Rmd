@@ -1,0 +1,61 @@
+```{bash}
+
+# Download PDF from Google Slides 
+# Place PDF in its own folder, with the lesson name (FORMATTED THE SAME WAY AS THE SCRIPT AND THE MANUSCRIPT FILES)
+
+## USE PDFTOPPM 
+# brew install popplar
+
+pdftoppm -png *.pdf ##_COURSE_Title
+
+```
+
+```{r}
+
+#install.packages("ari")
+library(ari)
+#install.packages("remotes")
+#remotes::install_github("muschellij2/ari")
+                        
+                        
+#install.packages("aws.s3")
+library(aws.s3)
+
+# Replace [Redacted] with your own Amazon keys 
+Sys.setenv("AWS_ACCESS_KEY_ID" = "[Redacted]",
+           "AWS_SECRET_ACCESS_KEY" = "[Redacted]",
+           "AWS_DEFAULT_REGION" = "us-east-2")
+
+library(aws.polly)
+```
+
+
+# To compile all of the videos in the lesson at one time
+
+```{r}
+# Get list of files to turn into videos
+toari <- gsub(".md","",grep("[.]md", list.files('manuscript'), value = TRUE))
+
+
+## iterate through and make videos.
+for(i in 1:length(toari)){
+  files <- grep("[.]png", list.files(paste0('manuscript/resources/images/',toari[i]), pattern = "-[0123456789][0123456789].png", full.names = TRUE), value = TRUE)
+  para = readLines(paste0('scripts/', toari[i], '_script.md'), warn = FALSE)
+  para = para[ !para %in% ""]
+  ari_spin(paragraphs = para, images = files, output=paste0('videos/',toari[i],'.mp4'), voice='Joanna')
+}            
+
+```
+
+# Compiling a single video 
+
+```{r}
+## Name the single video title
+lecture <- "##_Course_Title"
+
+files <-  grep("[.]png", list.files(paste0('manuscript/resources/images/', lecture), pattern = "-[0123456789][0123456789].png", full.names = TRUE), value = TRUE)
+para = readLines(paste0('scripts/', lecture, '_script.md'))
+para = para[ !para %in% ""]
+ari_spin(paragraphs = para, images = files, output=paste0('videos/', lecture,'.mp4'), voice='Joanna')
+
+```
