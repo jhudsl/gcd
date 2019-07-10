@@ -6,7 +6,7 @@ Getting and Cleaning Data reboot
 Blogpost style lessons in /manuscript   
 Copies of the slides in /manuscript/resources/images   
 Scripts for automated video creation in /scripts   
-HTML versions of the lessons for Coursera in /HTMLs  
+HTML versions of the lessons for Coursera in /html  
 Compiled videos in /videos  # Not pushed to GitHub 
 
 # Lessons
